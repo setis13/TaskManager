@@ -1,0 +1,33 @@
+﻿<Window x:Class="TaskManager.View.Dialogs.TaskDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:TaskManager.View.Converters"
+        Title="TaskDialog" Height="300" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition MaxHeight="80"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="0" Grid.Row="0" Margin="5" Text="Name:" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Margin="5" Text="Description:" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Margin="5" Text="Important:" HorizontalAlignment="Right"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" Margin="5" Text="Hours:" HorizontalAlignment="Right"/>
+
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Name}" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Description}" Margin="5"/>
+        <Slider  Grid.Column="1" Grid.Row="2" Value="{Binding Important, Mode=TwoWay}" Minimum="1" Maximum="5" Margin="5"/>
+        <TextBox Grid.Column="1" Grid.Row="3"  Text="{Binding Hours, Mode=TwoWay}" Margin="5"/>
+
+        <Button Grid.Column="0" Grid.Row="10" Margin="5" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Height="24" Click="OkClicked"/>
+        <Button Grid.Column="1" Grid.Row="10" Margin="5" Content="Cancel" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="100" Height="24" Click="CancelClicked"/>
+    </Grid>
+</Window>
