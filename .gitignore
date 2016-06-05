@@ -1,4 +1,4 @@
-/.vs/TaskManager.View/v14/*.suo
+*.suo
 **/bin
 **/obj
 **/packages
