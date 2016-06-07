@@ -25,6 +25,7 @@ namespace TaskManager.View.Dialogs {
         private void OkClicked(object sender, RoutedEventArgs e) {
             _service.SaveComment(new CommentDto() {
                 CreatedDate = ViewModel.CommentViewModel.CreatedDate,
+                Date = ViewModel.CommentViewModel.Date,
                 Hours = ViewModel.CommentViewModel.Hours,
                 EntityId = ViewModel.CommentViewModel.EntityId,
                 IsDeleted = ViewModel.CommentViewModel.IsDeleted,

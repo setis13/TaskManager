@@ -13,7 +13,7 @@ namespace TaskManager.View.ViewModels {
         public byte Important { get; set; }
 
 		public TaskStatus Status {
-			get { return Comments.Count > 0 ? Comments.Last().Status : TaskStatus.InProgress; }
+			get { return Comments.Count > 0 ? Comments.OrderBy(c => c.Date).Last().Status : TaskStatus.InProgress; }
 		}
 		public string StatusDescription {
             get { return Status.GetDescription(); }
@@ -21,7 +21,7 @@ namespace TaskManager.View.ViewModels {
 
         public byte Progress {
             get {
-                return Comments.Count > 0 ? Comments.Last().Progress : (byte)0;
+                return Comments.Count > 0 ? Comments.OrderBy(c => c.Date).Last().Progress : (byte)0;
             }
         }
 

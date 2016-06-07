@@ -15,12 +15,16 @@ namespace TaskManager.View.Dialogs {
 		}
 
 		private void CreateReportClicked(object sender, RoutedEventArgs e) {
-			if (datePicker.SelectedDate == null) {
-				MessageBox.Show("Please select date");
-				return;
-			}
-			var service = ServiceLocator.Current.GetInstance<IReportService>();
-			var result = service.DayReport((DateTime)datePicker.SelectedDate);
+            if (datePicker1.SelectedDate == null) {
+                MessageBox.Show("Please select date");
+                return;
+            }
+            if (datePicker2.SelectedDate == null) {
+                MessageBox.Show("Please select date");
+                return;
+            }
+            var service = ServiceLocator.Current.GetInstance<IReportService>();
+			var result = service.DayReport((DateTime)datePicker1.SelectedDate, (DateTime)datePicker2.SelectedDate);
 
 			var text = String.Empty;
 			double hours = 0;
@@ -55,21 +59,33 @@ namespace TaskManager.View.Dialogs {
 						task += " (unknown)";
 						break;
 				}
-				// next line
-				task += "\n";
 
-				if (cbHasComments.IsChecked == true) {
-					// comments
-					foreach (var commentDto in taskDto.Comments) {
-						hours += commentDto.Hours;
-						if (String.IsNullOrEmpty(commentDto.Text) == false) {
-							comments += $"  > {commentDto.Text}\n";
-						}
-					}
-					text += task + comments;
-				}
-			}
-			textBox.Text = $"{datePicker.SelectedDate:d} ({hours:F1}h)\n" + text;
-		}
+			    if (cbHasComments.IsChecked == true) {
+                    // next line
+                    task += "\n";
+                    // comments
+                    foreach (var commentDto in taskDto.Comments) {
+			            hours += commentDto.Hours;
+			            if (String.IsNullOrEmpty(commentDto.Text) == false) {
+			                comments += $"  > {commentDto.Text}\n";
+			            }
+			        }
+			        text += task + comments;
+			    } else {
+			        double task_hours = 0;
+                    // tasks
+                    foreach (var commentDto in taskDto.Comments) {
+                        task_hours += commentDto.Hours;
+                        hours += commentDto.Hours;
+                    }
+                    text += task + $" ({task_hours}h)" + "\n";
+                }
+            }
+		    if (datePicker1.SelectedDate == datePicker2.SelectedDate) {
+                textBox.Text = $"{datePicker1.SelectedDate:d} ({hours:F1}h)\n" + text;
+            } else {
+                textBox.Text = $"{datePicker1.SelectedDate:d} - {datePicker2.SelectedDate:d} ({hours:F1}h)\n" + text;
+            }
+        }
 	}
 }

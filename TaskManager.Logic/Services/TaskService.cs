@@ -24,19 +24,19 @@ namespace TaskManager.Logic.Services {
 
         public IReadOnlyCollection<TaskDto> GetTasks(bool inProgressFlag, bool doneFlag) {
             IQueryable<Task> tasks = base.UnitOfWork.GetEntityRepository<Task>().GetAll();
-            ILookup<Guid, Comment> comments = base.UnitOfWork.GetEntityRepository<Comment>().GetAll().OrderBy(c => c.CreatedDate).ToLookup(c => c.TaskId);
+            ILookup<Guid, Comment> comments = base.UnitOfWork.GetEntityRepository<Comment>().GetAll().OrderByDescending(c => c.CreatedDate).ToLookup(c => c.TaskId);
 
             var result = new List<TaskDto>();
 
             foreach (var task in tasks) {
                 if (comments.Contains(task.EntityId) == false || 
 (inProgressFlag == true && 
-(comments[task.EntityId].Last().Status & (
+(comments[task.EntityId].OrderBy(c => c.Date).Last().Status & (
 	(byte)Common.Enums.TaskStatus.InProgress |
 	(byte)Common.Enums.TaskStatus.NeedFeedback | 
 	(byte)Common.Enums.TaskStatus.None)) != 0) ||
 (doneFlag == true &&
-(comments[task.EntityId].Last().Status & (
+(comments[task.EntityId].OrderBy(c => c.Date).Last().Status & (
 	(byte)Common.Enums.TaskStatus.Done |
 	(byte)Common.Enums.TaskStatus.Rejected)) != 0)) {
                     result.Add(new TaskDto() {
@@ -51,6 +51,7 @@ namespace TaskManager.Logic.Services {
                             EntityId = c.EntityId,
                             CreatedDate = c.CreatedDate,
                             IsDeleted = c.IsDeleted,
+                            Date = c.Date,
                             Progress = c.Progress,
                             Hours = c.Hours,
                             Status = c.Status,
@@ -62,7 +63,7 @@ namespace TaskManager.Logic.Services {
                 }
             }
 
-            return result.OrderByDescending(t =>t.CreatedDate).ToList();
+            return result.OrderByDescending(t => t.Comments.Any() ? t.Comments.Max(c=> c.Date) : t.CreatedDate).ToList();
         }
 
         public void SaveTask(TaskDto task) {

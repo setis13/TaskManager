@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using TaskManager.Common.Enums;
@@ -13,7 +14,7 @@ namespace TaskManager.View.ViewModels {
 
         public WrapCommentViewModel(TaskViewModel taskViewModel) {
 	        TaskViewModel = taskViewModel;
-	        CommentViewModel = new CommentViewModel() {TaskId = taskViewModel.EntityId, Status = TaskStatus.InProgress };
+	        CommentViewModel = new CommentViewModel() {TaskId = taskViewModel.EntityId, Status = TaskStatus.InProgress, Date = DateTime.Now};
 			Statuses = typeof(TaskStatus).GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => (((TaskStatus)fi.GetValue(null)))).ToList();
 		}
 

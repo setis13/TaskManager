@@ -22,15 +22,15 @@ namespace TaskManager.Logic.Services {
 
 		#endregion [ .ctor ]
 
-		public IReadOnlyCollection<TaskDto> DayReport(DateTime dateTime) {
+		public IReadOnlyCollection<TaskDto> DayReport(DateTime dateTime1, DateTime dateTime2) {
 			var comments = base.UnitOfWork.GetEntityRepository<Comment>().GetAll();
 			var tasks = base.UnitOfWork.GetEntityRepository<Task>().GetAll();
 
-			DateTime start = dateTime.Date;
-			DateTime end = dateTime.Date.AddDays(1);
+			DateTime start = dateTime1.Date;
+			DateTime end = dateTime2.Date.AddDays(1);
 
 			var query = from comment in comments
-						where comment.CreatedDate >= start && comment.CreatedDate < end && comment.IsDeleted == false
+						where comment.Date >= start && comment.Date < end && comment.IsDeleted == false
 						select comment;
 
 			var result = new List<TaskDto>();
@@ -51,8 +51,9 @@ namespace TaskManager.Logic.Services {
 				}
 				result.Single(t => t.EntityId == comment.TaskId).Comments.Add(new CommentDto() {
 					EntityId = comment.EntityId,
-					CreatedDate = comment.CreatedDate,
-					IsDeleted = comment.IsDeleted,
+                    CreatedDate = comment.CreatedDate,
+                    Date = comment.Date,
+                    IsDeleted = comment.IsDeleted,
 					Progress = comment.Progress,
 					Hours = comment.Hours,
 					Status = comment.Status,

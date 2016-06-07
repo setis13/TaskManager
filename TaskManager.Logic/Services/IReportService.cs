@@ -4,6 +4,6 @@ using TaskManager.Logic.Dtos;
 
 namespace TaskManager.Logic.Services {
     public interface IReportService : IService {
-		IReadOnlyCollection<TaskDto> DayReport(DateTime dateTime);
+		IReadOnlyCollection<TaskDto> DayReport(DateTime dateTime1, DateTime dateTime2);
     }
 }

@@ -7,7 +7,8 @@ namespace TaskManager.View.ViewModels {
     public class CommentViewModel : BaseViewModel, ICloneable {
 	    private TaskStatus _status;
 	    private byte _progress;
-	    public string Text { get; set; }
+        private DateTime _date;
+        public string Text { get; set; }
 
 	    public TaskStatus Status {
 		    get { return _status; }
@@ -19,7 +20,15 @@ namespace TaskManager.View.ViewModels {
 		    }
 	    }
 
-	    public string StatusDescription {
+        public DateTime Date {
+            get { return _date; }
+            set {
+                _date = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string StatusDescription {
 		    get { return Status.GetDescription(); }
 	    }
 
@@ -40,6 +49,7 @@ namespace TaskManager.View.ViewModels {
         public CommentViewModel(CommentDto dto) : base(dto) {
             Text = dto.Text;
             Status = (TaskStatus) dto.Status;
+            Date = dto.Date;
             Progress = dto.Progress;
             Hours = dto.Hours;
             TaskId = dto.TaskId;
@@ -48,6 +58,7 @@ namespace TaskManager.View.ViewModels {
         public object Clone() {
             return new CommentViewModel() {
                 CreatedDate = CreatedDate,
+                Date = Date,
                 Hours = Hours,
                 EntityId = EntityId,
                 IsDeleted = IsDeleted,

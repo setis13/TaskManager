@@ -13,10 +13,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-		<StackPanel Orientation="Horizontal">
-			<DatePicker Name="datePicker" SelectedDate="{x:Static system:DateTime.Now}" Margin="5"/>
-			<Button Content="Create" Width="70" Margin="5" Click="CreateReportClicked"/>
-		</StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <DatePicker Name="datePicker1" SelectedDate="{x:Static system:DateTime.Now}" Margin="5"/>
+            <DatePicker Name="datePicker2" SelectedDate="{x:Static system:DateTime.Now}" Margin="5"/>
+            <Button Content="Create" Width="70" Margin="5" Click="CreateReportClicked"/>
+        </StackPanel>
 		<CheckBox Grid.Row="1" Name="cbHasComments" Content="Show Comments" Margin="5"/>
         <TextBox Grid.Row="2" Margin="5" IsReadOnly="True" Name="textBox" TextWrapping="Wrap"/>
     </Grid>
