@@ -58,7 +58,6 @@ namespace TaskManager.View {
 		}
 
 		private void TotalReportClicked(object sender, RoutedEventArgs e) {
-			throw new System.NotImplementedException();
 		}
 	}
 }
